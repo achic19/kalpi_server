@@ -54,7 +54,7 @@ def find_kalpi(address):
     nearby_ballot = GeoDataFrame(geometry=[Point(X,Y)],crs=crs_geo).sjoin(gdf_voroni)
     kalpiyot=(pnt_voronoi.loc[nearby_ballot['index_right']][['USER_addre','location']].drop_duplicates(subset=['USER_addre','location']))
     json_str = kalpiyot.to_json()
-    return jsonify(json_str)
+    return json_str #jsonify(json_str)
 
 @app.route('/')
 def home():
