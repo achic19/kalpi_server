@@ -20,7 +20,7 @@ app = Flask(__name__)
 
 geocoding_data = []
 # Get your Google Maps API key from https://console.developers.google.com/
-API_KEY = "AIzaSyDctOzazXPPB5vx_K6VK7tV5WLSx0aaZqA"
+API_KEY = os.environ["GOOGLE_API"] #"AIzaSyDctOzazXPPB5vx_K6VK7tV5WLSx0aaZqA"
 def geo_code_fun(row,one_point=False):
     # Geocode a location
     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
