@@ -46,14 +46,18 @@ def geo_code_fun(row,one_point=False):
 
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
-    res  = geo_code_fun(address, True)
-    Y = res['results'][0]['geometry']['location']['lat']
-    X = res['results'][0]['geometry']['location']['lng']
+    try:
+        res  = geo_code_fun(address, True)
+        Y = res['results'][0]['geometry']['location']['lat']
+        X = res['results'][0]['geometry']['location']['lng']
 
-    crs_geo ='EPSG:4326'
-    nearby_ballot = GeoDataFrame(geometry=[Point(X,Y)],crs=crs_geo).sjoin(gdf_voroni)
-    kalpiyot=(pnt_voronoi.loc[nearby_ballot['index_right']][['USER_addre','location']].drop_duplicates(subset=['USER_addre','location']))
-    json_str = kalpiyot.to_json(force_ascii=False)#.encode('utf8')
+        crs_geo ='EPSG:4326'
+        nearby_ballot = GeoDataFrame(geometry=[Point(X,Y)],crs=crs_geo).sjoin(gdf_voroni)
+        kalpiyot=(pnt_voronoi.loc[nearby_ballot['index_right']][['USER_addre','location']].drop_duplicates(subset=['USER_addre','location'])).reset_index()
+        json_str = kalpiyot.to_json(force_ascii=False)#.encode('utf8')
+    except:
+        return ""
+
     return json_str
 
 @app.route('/')
