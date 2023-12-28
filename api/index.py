@@ -11,10 +11,10 @@ ASSETS_FOLDER = 'assets'
 VORNOI_GDF = os.path.join(ASSETS_FOLDER,'gdf_voroni.pkl')
 VORNOI_PNTS = os.path.join(ASSETS_FOLDER,'voroni_pnts.pkl')
 
-with open(VORNOI_GDF, "rb") as f:
-    gdf_voroni = pickle.load(f)
-with open(VORNOI_PNTS, "rb") as f:
-    pnt_voronoi = pickle.load(f)
+# with open(VORNOI_GDF, "rb") as f:
+#     gdf_voroni = pickle.load(f)
+# with open(VORNOI_PNTS, "rb") as f:
+#     pnt_voronoi = pickle.load(f)
 
 app = Flask(__name__)
 
@@ -54,8 +54,12 @@ def find_kalpi(address):
     json_str = kalpiyot.to_json(index=False)
     return jsonify(json_str)
 
-if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0")
+@app.route('/')
+def home():
+    return 'Hello, World!'
+
+# if __name__ == '__main__':
+#     app.run(debug=True, host="0.0.0.0")
 
 # if __name__ == '__main__':
 #     adress  ='רביבים 918, ירוחם'
