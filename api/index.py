@@ -1,4 +1,4 @@
-import pandas as pd
+# -*- coding: utf-8 -*-
 import requests
 import pickle
 from geopandas import GeoDataFrame
@@ -21,8 +21,8 @@ with open(VORNOI_PNTS, "rb") as f:
 app = Flask(__name__)
 
 geocoding_data = []
-# Get your Google Maps API key from https://console.developers.google.com/
-API_KEY = os.environ["GOOGLE_API"] #"AIzaSyDctOzazXPPB5vx_K6VK7tV5WLSx0aaZqA"
+API_KEY = os.environ["GOOGLE_API"] #
+# API_KEY="AIzaSyDctOzazXPPB5vx_K6VK7tV5WLSx0aaZqA"
 def geo_code_fun(row,one_point=False):
     # Geocode a location
     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
@@ -53,14 +53,15 @@ def find_kalpi(address):
     crs_geo ='EPSG:4326'
     nearby_ballot = GeoDataFrame(geometry=[Point(X,Y)],crs=crs_geo).sjoin(gdf_voroni)
     kalpiyot=(pnt_voronoi.loc[nearby_ballot['index_right']][['USER_addre','location']].drop_duplicates(subset=['USER_addre','location']))
-    json_str = kalpiyot.to_json()
-    return json_str #jsonify(json_str)
+    json_str = kalpiyot.to_json(force_ascii=False)#.encode('utf8')
+    return json_str
 
 @app.route('/')
 def home():
-    return 'Hello, World!'
+    return '???'
 
 # if __name__ == '__main__':
+#     print(find_kalpi('רביבים 918, ירוחם'))
 #     app.run(debug=True, host="0.0.0.0")
 
 # if __name__ == '__main__':
