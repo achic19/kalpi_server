@@ -8,8 +8,8 @@ from flask import Flask, jsonify
 import os
 
 ASSETS_FOLDER = 'assets'
-VORNOI_GDF = os.path.join(ASSETS_FOLDER,'gdf_voroni.pkl')
-VORNOI_PNTS = os.path.join(ASSETS_FOLDER,'voroni_pnts.pkl')
+VORNOI_GDF = os.path.join("..", ASSETS_FOLDER,'gdf_voroni.pkl')
+VORNOI_PNTS = os.path.join("..", ASSETS_FOLDER,'voroni_pnts.pkl')
 
 with open(VORNOI_GDF, "rb") as f:
     gdf_voroni = pickle.load(f)
