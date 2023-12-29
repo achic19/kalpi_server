@@ -8,10 +8,8 @@ from flask import Flask, jsonify
 import os
 
 ASSETS_FOLDER = 'assets'
-VORNOI_GDF = os.path.join(ASSETS_FOLDER,'gdf_voroni.pkl')
-VORNOI_PNTS = os.path.join(ASSETS_FOLDER,'voroni_pnts.pkl')
-# VORNOI_GDF = 'gdf_voroni.pkl'
-# VORNOI_PNTS = 'voroni_pnts.pkl'
+VORNOI_GDF = os.path.join(ASSETS_FOLDER, 'gdf_voroni.pkl')
+VORNOI_PNTS = os.path.join(ASSETS_FOLDER, 'voroni_pnts.pkl')
 
 with open(VORNOI_GDF, "rb") as f:
     gdf_voroni = pickle.load(f)
@@ -21,9 +19,10 @@ with open(VORNOI_PNTS, "rb") as f:
 app = Flask(__name__)
 
 geocoding_data = []
-API_KEY = os.environ["GOOGLE_API"] #
-# API_KEY="AIzaSyDctOzazXPPB5vx_K6VK7tV5WLSx0aaZqA"
-def geo_code_fun(row,one_point=False):
+API_KEY = os.environ["GOOGLE_API"]  #
+
+
+def geo_code_fun(row, one_point=False):
     # Geocode a location
     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     params = {
@@ -44,21 +43,27 @@ def geo_code_fun(row,one_point=False):
         # The request failed
         print("Request failed")
 
+
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
     try:
-        res  = geo_code_fun(address, True)
-        Y = res['results'][0]['geometry']['location']['lat']
-        X = res['results'][0]['geometry']['location']['lng']
+        res = geo_code_fun(address, True)
+        if res == 'Request failed':
+            return "Geo coding error."
+        else:
+            Y = res['results'][0]['geometry']['location']['lat']
+            X = res['results'][0]['geometry']['location']['lng']
 
-        crs_geo ='EPSG:4326'
-        nearby_ballot = GeoDataFrame(geometry=[Point(X,Y)],crs=crs_geo).sjoin(gdf_voroni)
-        kalpiyot=(pnt_voronoi.loc[nearby_ballot['index_right']][['USER_addre','location']].drop_duplicates(subset=['USER_addre','location'])).reset_index()
-        json_str = kalpiyot.to_json(force_ascii=False)#.encode('utf8')
+            crs_geo = 'EPSG:4326'
+            nearby_ballot = GeoDataFrame(geometry=[Point(X, Y)], crs=crs_geo).sjoin(gdf_voroni)
+            kalpiyot = (pnt_voronoi.loc[nearby_ballot['index_right']][['address', 'location']].drop_duplicates(
+                subset=['address', 'location'])).reset_index(drop=True)
+            json_str = kalpiyot.to_json(force_ascii=False)
     except:
         return ""
 
     return json_str
+
 
 @app.route('/')
 def home():
