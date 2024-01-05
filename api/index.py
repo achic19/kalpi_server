@@ -58,7 +58,7 @@ def find_kalpi(address):
             nearby_ballot = GeoDataFrame(geometry=[Point(X, Y)], crs=crs_geo).sjoin(gdf_voroni)
             kalpiyot = (pnt_voronoi.loc[nearby_ballot['index_right']][['address', 'location']].drop_duplicates(
                 subset=['address', 'location'])).reset_index(drop=True)
-            json_str = kalpiyot.to_json(force_ascii=False)
+            json_str = kalpiyot.to_json(force_ascii=False, orient='records').replace("\\", "")
     except:
         return ""
 
