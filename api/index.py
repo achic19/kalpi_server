@@ -58,11 +58,11 @@ def find_kalpi(address):
             nearby_ballot = GeoDataFrame(geometry=[Point(X, Y)], crs=crs_geo).sjoin(gdf_voroni)
             kalpiyot = pnt_voronoi.loc[nearby_ballot['index_right']][['address', 'location', 'symbol']]
             json_str = kalpiyot.to_json(force_ascii=False, orient='records').replace("\\", "")
-            # send it to the Vercel function
-            requests.post("kalpi_history", json={"json_data": json_str})
+
     except:
         return ""
-
+    # send it to the Vercel function
+    requests.post("kalpi_history", json={"json_data": json_str})
     return json_str
 
 
