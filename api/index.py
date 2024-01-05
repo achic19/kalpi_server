@@ -63,7 +63,7 @@ def find_kalpi(address):
         return ""
     # send it to the Vercel function
     try:
-        requests.post("kalpi_history", json={"json_data": json_str})
+        requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js", json={"json_data": json_str})
     except:
         return json_str
     return json_str
