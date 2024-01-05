@@ -65,7 +65,7 @@ def find_kalpi(address):
     try:
         requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js", json={"json_data": json_str})
     except:
-        return 'failed to save'
+        return json_str
     return json_str
 
 
