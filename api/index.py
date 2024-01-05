@@ -62,7 +62,10 @@ def find_kalpi(address):
     except:
         return ""
     # send it to the Vercel function
-    requests.post("kalpi_history", json={"json_data": json_str})
+    try:
+        requests.post("kalpi_history", json={"json_data": json_str})
+    except:
+        return json_str
     return json_str
 
 
