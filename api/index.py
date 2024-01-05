@@ -58,6 +58,8 @@ def find_kalpi(address):
             nearby_ballot = GeoDataFrame(geometry=[Point(X, Y)], crs=crs_geo).sjoin(gdf_voroni)
             kalpiyot = pnt_voronoi.loc[nearby_ballot['index_right']][['address', 'location', 'symbol']]
             json_str = kalpiyot.to_json(force_ascii=False, orient='records').replace("\\", "")
+            # send it to the Vercel function
+            requests.post("kalpi_history", json={"json_data": json_str})
     except:
         return ""
 
@@ -67,18 +69,3 @@ def find_kalpi(address):
 @app.route('/')
 def home():
     return '???'
-
-# if __name__ == '__main__':
-#     print(find_kalpi('רביבים 918, ירוחם'))
-#     app.run(debug=True, host="0.0.0.0")
-
-# if __name__ == '__main__':
-#     adress  ='רביבים 918, ירוחם'
-#     res  = geo_code_fun(adress,True)
-#     Y = res['results'][0]['geometry']['location']['lat']
-#     X = res['results'][0]['geometry']['location']['lng']
-#
-#     crs_geo ='EPSG:4326'
-#     nearby_ballot = GeoDataFrame(geometry=[Point(X,Y)],crs=crs_geo).sjoin(gdf_voroni)
-#     # drop_duplicates is when our code includes same location with a different ballot symbol
-#     print (pnt_voronoi.loc[nearby_ballot['index_right']][['USER_addre','location']].drop_duplicates(subset=['USER_addre','location']))
