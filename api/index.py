@@ -60,7 +60,7 @@ def find_kalpi(address):
             json_str = kalpiyot.to_json(force_ascii=False, orient='records').replace("\\", "")
 
     except:
-        return 'error to find closet calpi'
+        return 'Error to find the closet calpi'
     # send it to the Vercel function
     try:
         res= requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js",  data = list(kalpiyot['symbol']))
