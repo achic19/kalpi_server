@@ -57,16 +57,16 @@ def find_kalpi(address):
             crs_geo = 'EPSG:4326'
             nearby_ballot = GeoDataFrame(geometry=[Point(X, Y)], crs=crs_geo).sjoin(gdf_voroni)
             kalpiyot = pnt_voronoi.loc[nearby_ballot['index_right']][['address', 'location', 'symbol']]
-            json_str = kalpiyot.to_json(force_ascii=False, orient='records').replace("\\", "")
+            json_str = kalpiyot.to_json(force_ascii=False, orient='records')
 
     except:
         return 'Error to find the closet calpi'
     # send it to the Vercel function
-    try:
-        res1= requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js",  data = list(kalpiyot['symbol']))
-    except:
-        return res1
-    return res1
+    # try:
+    #     requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js",  data = list(kalpiyot['symbol']))
+    # except:
+    #     return res1
+    return json_str
 
 
 @app.route('/')
