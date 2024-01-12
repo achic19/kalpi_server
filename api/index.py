@@ -63,10 +63,10 @@ def find_kalpi(address):
         return 'Error to find the closet calpi'
     # send it to the Vercel function
     try:
-        res= requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js",  data = list(kalpiyot['symbol']))
+        res1= requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js",  data = list(kalpiyot['symbol']))
     except:
-        return res
-    return res
+        return res1
+    return res1
 
 
 @app.route('/')
