@@ -63,7 +63,7 @@ def find_kalpi(address):
         return 'Error to find the closet calpi'
     # send it to the Vercel function
 
-    requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js",  data = list(kalpiyot['symbol']))
+    requests.post("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-30gP8sWgozkg5EBOqiOeFTS3MXpwgN.js",  data = str(kalpiyot['symbol']))
 
 
 
