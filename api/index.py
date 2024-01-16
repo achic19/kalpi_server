@@ -4,8 +4,6 @@ import pickle
 from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
-# from @vercel/blob import put
-from http import HTTPStatus
 
 import os
 
@@ -23,35 +21,6 @@ app = Flask(__name__)
 geocoding_data = []
 API_KEY = os.environ["GOOGLE_API"]  #
 
-
-def handler(request):
-    try:
-        # Extract data from the request body
-        data_to_write = request.json().get('data')
-
-        # Write data to the Blob store
-        blob_url = write_to_blob(data_to_write)
-
-        # Respond with the URL where the data is stored
-        return {
-            'statusCode': HTTPStatus.OK,
-            'body': {'url': blob_url},
-        }
-    except Exception as e:
-        # Handle errors
-        return {
-            'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR,
-            'body': {'error': str(e)},
-        }
-
-def write_to_blob(data_to_write):
-    # Generate a unique filename or use a specific one
-    filename = 'example.txt'
-
-    # Save the data to the Blob store
-    blob_url = put(filename, data_to_write, {'access': 'public'}).url
-
-    return blob_url
 
 def geo_code_fun(row, one_point=False):
     # Geocode a location
@@ -93,22 +62,12 @@ def find_kalpi(address):
     except:
         return 'Error to find the closet calpi'
     # send it to the Vercel function
-    data_to_write = {'content': 'This is the content of the file.'}
-    # Make a POST request to the create_and_write function
-    # requests.post('https://kalpi-server.vercel.app/', json={'data': data_to_write})
-    requests.post\
-        ("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-p098JuUz1T8tQ9rozz1oJ5upFdGEBK.js",
-                  data=str(kalpiyot['symbol']))
+    # requests.post \
+    #     ("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-p098JuUz1T8tQ9rozz1oJ5upFdGEBK.js",
+    #      data=str(kalpiyot['symbol']))
     return json_str
 
 
 @app.route('/')
 def home():
     return '???'
-
-
-
-
-
-
-
