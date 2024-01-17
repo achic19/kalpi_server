@@ -4,8 +4,7 @@ import pickle
 from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
-from urllib.parse import urlparse
-
+from urllib.parse import urlpars
 
 import os
 
