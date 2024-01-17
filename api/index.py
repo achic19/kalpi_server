@@ -5,7 +5,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
 from urllib.parse import urlparse
-
+import psycopg2_binary
 
 import os
 
@@ -52,7 +52,7 @@ def write_post(sorce,ballot):
 
 
     parsed_url = urlparse(db_url)
-    connection = psycopg2.connect(
+    connection = psycopg2_binary.connect(
         host=parsed_url.hostname,
         port=parsed_url.port,
         database=parsed_url.path[1:],
