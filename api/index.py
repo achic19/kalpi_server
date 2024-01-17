@@ -61,10 +61,13 @@ def find_kalpi(address):
 
     except:
         return 'Error to find the closet calpi'
-    # send it to the Vercel function
-    # requests.post \
-    #     ("https://kalpi-server.vercel.app/api/saveBlob.js",
-    #      json={'data': json_str})
+    #send it to the Vercel function
+    try:
+        requests.post \
+            ("https://n0hkbszkewfd5scr.public.blob.vercel-storage.com/saveBlob-p098JuUz1T8tQ9rozz1oJ5upFdGEBK.js",
+             json={'data': json_str})
+    except:
+        return json_str
     return json_str
 
 
