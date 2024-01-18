@@ -51,8 +51,6 @@ def write_post(sorce,ballot):
     db_url = os.getenv("postgres://default:ISE3lKgq6kfe@ep-wispy-limit-89580954-"
                        "pooler.us-east-1.postgres.vercel-storage.com:5432/verceldb")
     # Use the environment variable for database URL
-
-
     parsed_url = urlparse(db_url)
     connection = psycopg2.connect(
         host=parsed_url.hostname,
