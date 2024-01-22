@@ -5,7 +5,6 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
 from urllib.parse import urlparse
-import langid
 import json
 
 
@@ -31,8 +30,7 @@ def geo_code_fun(row):
     params = {
         "key": API_KEY,
     }
-    lang, _ = langid.classify(row)
-    if lang in ['fa','he'] and ',' in row:
+    if ',' in row:
         list_str = row.split(',')
         list_str.reverse()
         row = ','.join(list_str)
@@ -66,7 +64,7 @@ def find_kalpi(address):
             json_str = kalpiyot.to_json(force_ascii=False, orient='records')
 
     except:
-        return "no calpi"
+        return json_str
     return lang
 
 
