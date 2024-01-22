@@ -4,7 +4,7 @@ import pickle
 from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
-# import langid
+import langid
 
 
 import os
@@ -26,11 +26,11 @@ API_KEY = os.environ["GOOGLE_API"]  #
 
 def geo_code_fun(row):
     # if it is Hebrew, reverse the list
-    # lang, _ = langid.classify(row)
-    # if lang in ['fa', 'he'] and ',' in row:
-    #     list_str = row.split(',')
-    #     list_str.reverse()
-    #     row = ','.join(list_str)
+    lang, _ = langid.classify(row)
+    if lang in ['fa', 'he'] and ',' in row:
+        list_str = row.split(',')
+        list_str.reverse()
+        row = ','.join(list_str)
     # Geocode a location
     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     params = {
