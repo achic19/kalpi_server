@@ -4,10 +4,8 @@ import pickle
 from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
-from urllib.parse import urlparse
-
+import langid
 import json
-
 
 import os
 
@@ -26,58 +24,32 @@ geocoding_data = []
 API_KEY = os.environ["GOOGLE_API"]  #
 
 
-def geo_code_fun(row, one_point=False):
+def geo_code_fun(row):
+    # if it is Hebrew, reverse the list
+    lang, _ = langid.classify(row)
+    if lang in ['fa', 'he'] and ',' in row:
+        list_str = row.split(',')
+        list_str.reverse()
+        row = ','.join(list_str)
     # Geocode a location
-    try:
-        json_object = json.loads(row)
-        url = f"https://maps.googleapis.com/maps/api/geocode/json?address={json_object['city']},{json_object['street']},israel"
-    except json.JSONDecodeError:
-        url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
+    url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     params = {
         "key": API_KEY,
     }
-    # url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     response = requests.get(url, params=params)
 
     # Check the response status code
     if response.status_code == 200:
         # The request was successful
         data_coded = response.json()
-        if one_point:
-            return data_coded
-        else:
-            geocoding_data.append(data_coded)
+        return data_coded
+
     else:
         # The request failed
         print("Request failed")
-# def write_post(sorce,ballot):
-#     # 1.  Connect to PostgreSQL
-#     db_url = os.getenv("postgres://default:ISE3lKgq6kfe@ep-wispy-limit-89580954-"
-#                        "pooler.us-east-1.postgres.vercel-storage.com:5432/verceldb")
-#     # Use the environment variable for database URL
-#     parsed_url = urlparse(db_url)
-#     connection = psycopg2.connect(
-#         host=parsed_url.hostname,
-#         port=parsed_url.port,
-#         database=parsed_url.path[1:],
-#         user=parsed_url.username,
-#         password=parsed_url.password
-#     )
-#
-#     # Create a cursor
-#     cursor = connection.cursor()
-#
-#     # Define a table and column (replace 'your_table' and 'column_name' with your actual table and column names)
-#     table_name = 'sp'
-#     # Insert JSON data into the table
-#     cursor.execute(f'INSERT INTO SP (Adr, Ballot) VALUES ({sorce},{ballot} )')
-#
-#     # Commit the transaction
-#     connection.commit()
-#
-#     # Close the cursor and connection
-#     cursor.close()
-#     connection.close()
+
+
+
 
 
 @app.route('/kalpi/<address>')
