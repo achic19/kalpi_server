@@ -51,7 +51,7 @@ def geo_code_fun(row):
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
     try:
-        res,lang = geo_code_fun(address)
+        res= geo_code_fun(address)
         if res == 'Request failed':
             return "Geo coding error."
         else:
