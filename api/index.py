@@ -28,15 +28,15 @@ API_KEY = os.environ["GOOGLE_API"]  #
 
 def geo_code_fun(row, one_point=False):
     # Geocode a location
-    # try:
-    #     json_object = json.loads(row)
-    #     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={json_object['street']},{json_object['city']},israel"
-    # except json.JSONDecodeError:
-    #     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
+    try:
+        json_object = json.loads(row)
+        url = f"https://maps.googleapis.com/maps/api/geocode/json?address={json_object['street']},{json_object['city']},israel"
+    except json.JSONDecodeError:
+        url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     params = {
         "key": API_KEY,
     }
-    url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
+    # url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     response = requests.get(url, params=params)
 
     # Check the response status code
