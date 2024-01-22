@@ -5,7 +5,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
 import langid
-
+import json
 
 import os
 
