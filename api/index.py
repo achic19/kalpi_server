@@ -67,7 +67,7 @@ def find_kalpi(address):
             json_str = kalpiyot.to_json(force_ascii=False, orient='records')
 
     except:
-        return 'Error to find the closet calpi'
+        return res
     return json_str
 
 
