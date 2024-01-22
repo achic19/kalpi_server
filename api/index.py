@@ -40,9 +40,7 @@ def geo_code_fun(row):
     # Check the response status code
     if response.status_code == 200:
         # The request was successful
-        data_coded = response.json()
-        return data_coded
-
+        return response.json()
     else:
         # The request failed
         print("Request failed")
