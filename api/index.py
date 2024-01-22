@@ -35,8 +35,7 @@ def geo_code_fun(row):
     if lang in ['fa','he'] and ',' in row:
         list_str = row.split(',')
         list_str.reverse()
-        adress = ','.join(list_str)
-        print(adress)
+        row = ','.join(list_str)
     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     response = requests.get(url, params=params)
 
@@ -67,7 +66,7 @@ def find_kalpi(address):
             json_str = kalpiyot.to_json(force_ascii=False, orient='records')
 
     except:
-        return res
+        return "no calpi"
     return json_str
 
 
