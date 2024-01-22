@@ -43,7 +43,7 @@ def geo_code_fun(row):
     if response.status_code == 200:
         # The request was successful
         data_coded = response.json()
-        return data_coded
+        return data_coded,lang
 
     else:
         # The request failed
@@ -53,7 +53,7 @@ def geo_code_fun(row):
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
     try:
-        res = geo_code_fun(address)
+        res,lang = geo_code_fun(address)
         if res == 'Request failed':
             return "Geo coding error."
         else:
@@ -67,7 +67,7 @@ def find_kalpi(address):
 
     except:
         return "no calpi"
-    return json_str
+    return lang
 
 
 @app.route('/')
