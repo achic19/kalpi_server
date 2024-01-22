@@ -30,7 +30,7 @@ def geo_code_fun(row, one_point=False):
     # Geocode a location
     try:
         json_object = json.loads(row)
-        url = f"https://maps.googleapis.com/maps/api/geocode/json?address={json_object['street']},{json_object['city']},israel"
+        url = f"https://maps.googleapis.com/maps/api/geocode/json?address={json_object['city']},{json_object['street']},israel"
     except json.JSONDecodeError:
         url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     params = {
