@@ -64,8 +64,8 @@ def find_kalpi(address):
             json_str = kalpiyot.to_json(force_ascii=False, orient='records')
 
     except:
-        return json_str
-    return lang
+        return "No Kalpi"
+    return json_str
 
 
 @app.route('/')
