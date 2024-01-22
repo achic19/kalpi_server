@@ -30,10 +30,10 @@ def geo_code_fun(row):
     params = {
         "key": API_KEY,
     }
-    if ',' in row:
-        list_str = row.split(',')
-        list_str.reverse()
-        row = ','.join(list_str)
+
+    list_str = row.split(',')
+    list_str.reverse()
+    row = ','.join(list_str)
     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     response = requests.get(url, params=params)
 
