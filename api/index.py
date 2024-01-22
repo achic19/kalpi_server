@@ -5,7 +5,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
 from urllib.parse import urlparse
-import psycopg2
+
 import json
 
 
