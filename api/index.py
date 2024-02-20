@@ -88,7 +88,9 @@ def add_in_data(is_in_data,area_eb,res=False):
 
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
+  # First- clean up the data
   address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
+  # reverse the data for the geocoding
   if ',' in address:
       list_str= address.split(',')
       list_str.reverse()
