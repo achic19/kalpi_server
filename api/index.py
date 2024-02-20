@@ -65,6 +65,7 @@ def add_in_data(is_in_data,area_eb,res=False):
   if not res:
     res  = geo_code_fun(address)
   # Create new point from the geocoding
+  return (rex)
   Y = res['results'][0]['geometry']['location']['lat']
   X = res['results'][0]['geometry']['location']['lng']
   point2 = Point(X,Y)
@@ -102,6 +103,7 @@ def find_kalpi(address):
   if len(is_in_data)>0:
       area_eb = is_in_data.iloc[0]['area']
       kalpiyot= add_in_data(is_in_data,area_eb)
+      return kalpiyot
   else:
       res  = geo_code_fun(address)
       name = find_en_name(res['results'][0]['formatted_address']).strip().lower()
