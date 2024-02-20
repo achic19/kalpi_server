@@ -83,6 +83,7 @@ def add_in_data(res=False):
 
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
+    address=address.encode('utf-8')
     try:
         return(address)
         address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
