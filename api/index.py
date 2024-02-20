@@ -33,10 +33,6 @@ def geo_code_fun(row):
     params = {
         "key": API_KEY,
     }
-    if ',' in row:
-        list_str = row.split(',')
-        list_str.reverse()
-        row = ','.join(list_str)
     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={row},israel"
     response = requests.get(url, params=params)
 
@@ -88,7 +84,14 @@ def find_kalpi(address):
     try:
       address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
        
-      area= address.split(',')[0]
+      
+      if ',' in address:
+        list_str= address.split(',')
+        list_str.reverse()
+        address = ','.join(list_str)
+        area = list_str[0]
+      else:
+          area = address  
       is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
       return(is_in_data.to_json(force_ascii=False,orient='records'))
       if len(is_in_data)>0:
