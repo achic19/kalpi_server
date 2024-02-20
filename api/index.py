@@ -84,13 +84,11 @@ def add_in_data(res=False):
 
 
 @app.route('/kalpi/<address>')
-def find_kalpi(address):
-    test= True
+def find_kalpi(adresses):
     try:
       adress  =adresses[-1]
-      adress= adress.str.replace('"', '').str.replace("'", '').str.replace("-", ' ').str.strip()
-      if test:
-        return adress
+      adress= adress.replace('"', '').replace("'", '').replace("-", ' ').strip()
+
       area= adress.split(',')[0]
       is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
 
