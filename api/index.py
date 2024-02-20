@@ -98,6 +98,7 @@ def find_kalpi(address):
       area = list_str[0]
   else:
       area = address  
+  return area
   is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
   return is_in_data.to_json(force_ascii=False,orient='records')
   # if len(is_in_data)>0:
