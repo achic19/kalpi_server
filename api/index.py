@@ -9,6 +9,10 @@ import json
 import os
 from os.path import join as jn
 
+def find_en_name(my_str):
+  format_s = my_str.split(',')
+  comma_count = my_str.count(',')
+  return format_s[0] if comma_count==0 or comma_count==1 else format_s[1]
 
 # folder that store the database for the algorithm
 main_folder = 'assets'
