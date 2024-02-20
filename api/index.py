@@ -5,9 +5,10 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
 import json
+# import os
 import os
 from os.path import join as jn
-
+# folder that store the database for the algorithm
 main_folder = 'assets'
 
 with open(jn(main_folder,'gdf_voroni.pkl'), "rb") as f:
