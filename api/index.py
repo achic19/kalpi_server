@@ -10,6 +10,7 @@ import os
 from os.path import join as jn
 
 def find_en_name(my_str):
+  # This function know how to find the city from google api address
   format_s = my_str.split(',')
   comma_count = my_str.count(',')
   return format_s[0] if comma_count==0 or comma_count==1 else format_s[1]
@@ -87,40 +88,36 @@ def add_in_data(res=False):
 
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
-
-      address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
-      if ',' in address:
-          list_str= address.split(',')
-          list_str.reverse()
-          address = ','.join(list_str)
-          area = list_str[0]
-      else:
-          area = address  
-      is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
+  address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
+  if ',' in address:
+      list_str= address.split(',')
+      list_str.reverse()
+      address = ','.join(list_str)
+      area = list_str[0]
+  else:
+      area = address  
+  is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
+  if len(is_in_data)>0:
+      area_eb = is_in_data.iloc[0]['area']
+      kalpiyot= add_in_data()
+  else:
+      res  = geo_code_fun(address)
+      name = find_en_name(res['results'][0]['formatted_address']).strip().lower()
+      is_in_data = places_dic2[places_dic2['name_en']== name]
       if len(is_in_data)>0:
           area_eb = is_in_data.iloc[0]['area']
-          kalpiyot= add_in_data()
+          kalpiyot= add_in_data(res)
       else:
-          res  = geo_code_fun(address)
-          name = find_en_name(res['results'][0]['formatted_address']).strip().lower()
-          is_in_data = places_dic2[places_dic2['name_en']== name]
-          if len(is_in_data)>0:
-              area_eb = is_in_data.iloc[0]['area']
-              kalpiyot= add_in_data(res)
-          else:
-              Y = res['results'][0]['geometry']['location']['lat']
-              X = res['results'][0]['geometry']['location']['lng']
-              point2 = Point(X,Y)
-              nearby_ballot = GeoDataFrame(geometry=[point2],crs=crs_geo).sjoin(poly_voroni)
-              # drop_duplicates is when our code includes same location with a different ballot symbol
-              kalpiyot = pnt_voronoi.loc[nearby_ballot['index_right']]
-      if kalpiyot is False:
-          return "No Kalpi"
-      else:
-          json_str= kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
-    return json_str
-
-
+          Y = res['results'][0]['geometry']['location']['lat']
+          X = res['results'][0]['geometry']['location']['lng']
+          point2 = Point(X,Y)
+          nearby_ballot = GeoDataFrame(geometry=[point2],crs=crs_geo).sjoin(poly_voroni)
+          # drop_duplicates is when our code includes same location with a different ballot symbol
+          kalpiyot = pnt_voronoi.loc[nearby_ballot['index_right']]
+  if kalpiyot is False:
+    return "No Kalpi"
+  else:
+    return kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
 @app.route('/')
 def home():
     return '???'
