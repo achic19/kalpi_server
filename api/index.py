@@ -90,38 +90,38 @@ def add_in_data(is_in_data,area_eb,res=False):
 def find_kalpi(address):
   # First- clean up the data
   address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
-  area= address.split(',')[0]
   # reverse the data for the geocoding
-  # if ',' in address:
-  #     list_str= address.split(',')
-  #     list_str.reverse()
-  #     address = ','.join(list_str)
-  #     area = list_str[0]
-  # else:
-  #     area = address  
+  if ',' in address:
+      list_str= address.split(',')
+      list_str.reverse()
+      address = ','.join(list_str)
+      area = list_str[0]
+  else:
+      area = address  
   is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
-  if len(is_in_data)>0:
-      area_eb = is_in_data.iloc[0]['area']
-      kalpiyot= add_in_data(is_in_data,area_eb)
-  else:
-      res  = geo_code_fun(address)
-      name = find_en_name(res['results'][0]['formatted_address']).strip().lower()
-      is_in_data = places_dic2[places_dic2['name_en']== name]
-      if len(is_in_data)>0:
-          area_eb = is_in_data.iloc[0]['area']
-          kalpiyot= add_in_data(is_in_data,area_eb,res)
-      else:
-          Y = res['results'][0]['geometry']['location']['lat']
-          X = res['results'][0]['geometry']['location']['lng']
-          point2 = Point(X,Y)
-          nearby_ballot = GeoDataFrame(geometry=[point2],crs='EPSG:4326').sjoin(poly_voroni)
-          # drop_duplicates is when our code includes same location with a different ballot symbol
-          kalpiyot = pnt_voronoi.loc[nearby_ballot['index_right']]
-  if kalpiyot is False:
-    return "No Kalpi"
-  else:
-    kalpiyot[['address','location']]= kalpiyot[['address','location']].apply(lambda x:x.str.replace("'",'').str.replace('"',''))
-    return kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
+  return is_in_data.to_json(force_ascii=False,orient='records')
+  # if len(is_in_data)>0:
+  #     area_eb = is_in_data.iloc[0]['area']
+  #     kalpiyot= add_in_data(is_in_data,area_eb)
+  # else:
+  #     res  = geo_code_fun(address)
+  #     name = find_en_name(res['results'][0]['formatted_address']).strip().lower()
+  #     is_in_data = places_dic2[places_dic2['name_en']== name]
+  #     if len(is_in_data)>0:
+  #         area_eb = is_in_data.iloc[0]['area']
+  #         kalpiyot= add_in_data(is_in_data,area_eb,res)
+  #     else:
+  #         Y = res['results'][0]['geometry']['location']['lat']
+  #         X = res['results'][0]['geometry']['location']['lng']
+  #         point2 = Point(X,Y)
+  #         nearby_ballot = GeoDataFrame(geometry=[point2],crs='EPSG:4326').sjoin(poly_voroni)
+  #         # drop_duplicates is when our code includes same location with a different ballot symbol
+  #         kalpiyot = pnt_voronoi.loc[nearby_ballot['index_right']]
+  # if kalpiyot is False:
+  #   return "No Kalpi"
+  # else:
+  #   kalpiyot[['address','location']]= kalpiyot[['address','location']].apply(lambda x:x.str.replace("'",'').str.replace('"',''))
+  #   return kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
 @app.route('/')
 def home():
     return '???'
