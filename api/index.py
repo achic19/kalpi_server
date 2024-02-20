@@ -5,7 +5,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
 import json
-
+import os
 from os.path import join as jn
 
 main_folder = 'assets'
