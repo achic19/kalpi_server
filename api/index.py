@@ -51,7 +51,7 @@ def geo_code_fun(row):
         # The request failed
         print("Request failed")
 
-def add_in_data(res=False):
+def add_in_data(is_in_data,res=False):
   "This function find the relevant kalpi/s"
   # no kalpi
   if is_in_data.iloc[0]['is_minimum']==0:
@@ -68,7 +68,7 @@ def add_in_data(res=False):
   Y = res['results'][0]['geometry']['location']['lat']
   X = res['results'][0]['geometry']['location']['lng']
   point2 = Point(X,Y)
-  # if there are ony two points, find the closet one
+  # if there are  two points, find the closet one
   if is_in_data.iloc[0]['is_minimum']==2:
     groups =  pnt_voronoi_local[pnt_voronoi_local['reg']==area].groupby(level=0)
     dis_1 = groups.get_group(-2).iloc[0].geometry.distance(point2)
@@ -77,7 +77,7 @@ def add_in_data(res=False):
       return groups.get_group(-2)
     else:
       return groups.get_group(-3)
-  # find the relevant polygons 
+  # if there are more than two - find the relevant polygons 
   temp_data_polys= poly_voroni_local[poly_voroni_local['reg']==area_eb]
   # find the relevant polygons that intersect the new point
   nearby_ballot = GeoDataFrame(geometry=[point2],crs=crs_geo).sjoin(temp_data_polys)
@@ -99,14 +99,14 @@ def find_kalpi(address):
   is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
   if len(is_in_data)>0:
       area_eb = is_in_data.iloc[0]['area']
-      kalpiyot= add_in_data()
+      kalpiyot= add_in_data(is_in_data)
   else:
       res  = geo_code_fun(address)
       name = find_en_name(res['results'][0]['formatted_address']).strip().lower()
       is_in_data = places_dic2[places_dic2['name_en']== name]
       if len(is_in_data)>0:
           area_eb = is_in_data.iloc[0]['area']
-          kalpiyot= add_in_data(res)
+          kalpiyot= add_in_data(is_in_data,res)
       else:
           Y = res['results'][0]['geometry']['location']['lat']
           X = res['results'][0]['geometry']['location']['lng']
