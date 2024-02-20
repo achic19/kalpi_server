@@ -91,10 +91,10 @@ def find_kalpi(address):
       adress= adress.replace('"', '').replace("'", '').replace("-", ' ').strip()
       area= adress.split(',')[0]
       is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
+      if test:
+        return area
       if len(is_in_data)>0:
         area_eb = is_in_data.iloc[0]['area']
-      if test:
-        return is_in_data
         kalpiyot= add_in_data()
       else:
         res  = geo_code_fun(adress,True)
