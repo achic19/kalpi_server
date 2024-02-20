@@ -60,7 +60,7 @@ def add_in_data(res=False):
     return temp_data_pnts
   # there are more than one ballot, make sure if we need to to geo-coding
   if not res:
-    res  = geo_code_fun(adress,True)
+    res  = geo_code_fun(address)
   # Create new point from the geocoding
   Y = res['results'][0]['geometry']['location']['lat']
   X = res['results'][0]['geometry']['location']['lng']
@@ -84,9 +84,9 @@ def add_in_data(res=False):
 
 
 @app.route('/kalpi/<address>')
-def find_kalpi(adresses):
+def find_kalpi(address):
     try:
-      adress  =adresses[-1]
+      adress  =address[-1]
       adress= adress.replace('"', '').replace("'", '').replace("-", ' ').strip()
 
       area= adress.split(',')[0]
@@ -96,7 +96,7 @@ def find_kalpi(adresses):
         area_eb = is_in_data.iloc[0]['area']
         kalpiyot= add_in_data()
       else:
-        res  = geo_code_fun(adress,True)
+        res  = geo_code_fun(address)
         name = find_en_name(res['results'][0]['formatted_address']).strip().lower()
         is_in_data = places_dic2[places_dic2['name_en']== name]
         if len(is_in_data)>0:
