@@ -5,9 +5,11 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
 import json
-# import os
+
 import os
 from os.path import join as jn
+
+
 # folder that store the database for the algorithm
 main_folder = 'assets'
 # Read data form the assets
@@ -91,7 +93,7 @@ def find_kalpi(address):
         else:
             area = address  
         is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
-        return(places_dic2.to_string(index=False))
+        return(places_dic2['location'].to_string(index=False))
         if len(is_in_data)>0:
             area_eb = is_in_data.iloc[0]['area']
             kalpiyot= add_in_data()
