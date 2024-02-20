@@ -65,7 +65,7 @@ def add_in_data(is_in_data,area_eb,res=False):
   if not res:
     res  = geo_code_fun(address)
   # Create new point from the geocoding
-  return (rex)
+  return res
   Y = res['results'][0]['geometry']['location']['lat']
   X = res['results'][0]['geometry']['location']['lng']
   point2 = Point(X,Y)
