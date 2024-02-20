@@ -88,7 +88,7 @@ def find_kalpi(address):
     test= True
     try:
       adress  =adresses[-1]
-      adress= adress.replace('"', '').replace("'", '').replace("-", ' ').strip()
+      adress= adress.str.replace('"', '').str.replace("'", '').str.replace("-", ' ').str.strip()
       area= adress.split(',')[0]
       if test:
         return area
