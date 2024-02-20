@@ -94,7 +94,6 @@ def find_kalpi(address):
             area = list_str[0]
         else:
             area = address  
-        return(area)
         is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
         if len(is_in_data)>0:
             area_eb = is_in_data.iloc[0]['area']
