@@ -25,7 +25,7 @@ with open(jn(main_folder,'places_dic.pkl'), "rb") as f:
 
 app = Flask(__name__)
 
-API_KEY = os.environ["GOOGLE_API"]  #
+API_KEY = os.environ["GOOGLE_API"]  
 
 def geo_code_fun(row):
     # Geocode a location
