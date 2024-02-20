@@ -90,7 +90,7 @@ def add_in_data(is_in_data,area_eb,res=False):
 def find_kalpi(address):
   # First- clean up the data
   address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
-  area= adress.split(',')[0]
+  area= address.split(',')[0]
   is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
   return is_in_data.to_json(force_ascii=False,orient='records')
   # if len(is_in_data)>0:
