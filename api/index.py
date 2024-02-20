@@ -89,9 +89,9 @@ def find_kalpi(address):
     try:
       adress  =adresses[-1]
       adress= adress.str.replace('"', '').str.replace("'", '').str.replace("-", ' ').str.strip()
-      area= adress.split(',')[0]
       if test:
-        return area
+        return adress
+      area= adress.split(',')[0]
       is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
 
       if len(is_in_data)>0:
