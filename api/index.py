@@ -91,7 +91,7 @@ def find_kalpi(address):
       else:
           area = address  
       is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
-      return(len(is_in_data))
+      return(is_in_data.astype(str))
       if len(is_in_data)>0:
         area_eb = is_in_data.iloc[0]['area']
         kalpiyot= add_in_data()
