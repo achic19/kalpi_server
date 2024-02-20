@@ -52,7 +52,7 @@ def geo_code_fun(row):
         # The request failed
         print("Request failed")
 
-def add_in_data(is_in_data,area_eb,res=False):
+def add_in_data(is_in_data,area_eb,address=False,res=False):
   "This function find the relevant kalpi/s"
   # no kalpi
   if is_in_data.iloc[0]['is_minimum']==0:
@@ -89,23 +89,27 @@ def add_in_data(is_in_data,area_eb,res=False):
 
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
+  
   # First- clean up the data
   address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
+  
   # Decode the URL-encoded text
   address = urllib.parse.unquote(address)
+  
   # Find the place in the places dictionary
   area= address.split(',')[0]
   is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
   if len(is_in_data)>0:
+      # if found,send the area to find the bullet from the the list of bullets
       area_eb = is_in_data.iloc[0]['area']
-      kalpiyot= add_in_data(is_in_data,area_eb)
+      kalpiyot= add_in_data(is_in_data,area_eb,address)
   else:
       res  = geo_code_fun(address)
       name = find_en_name(res['results'][0]['formatted_address']).strip().lower()
       is_in_data = places_dic2[places_dic2['name_en']== name]
       if len(is_in_data)>0:
           area_eb = is_in_data.iloc[0]['area']
-          kalpiyot= add_in_data(is_in_data,area_eb,res)
+          kalpiyot= add_in_data(is_in_data,area_eb,res= res)
       else:
           Y = res['results'][0]['geometry']['location']['lat']
           X = res['results'][0]['geometry']['location']['lng']
