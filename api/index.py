@@ -80,7 +80,7 @@ def add_in_data(is_in_data,area_eb,res=False):
   # if there are more than two - find the relevant polygons 
   temp_data_polys= poly_voroni_local[poly_voroni_local['reg']==area_eb]
   # find the relevant polygons that intersect the new point
-  nearby_ballot = GeoDataFrame(geometry=[point2],crs=crs_geo).sjoin(temp_data_polys)
+  nearby_ballot = GeoDataFrame(geometry=[point2],crs='EPSG:4326').sjoin(temp_data_polys)
   # drop_duplicates is when our code includes same location with a different ballot symbol
   return temp_data_pnts.loc[nearby_ballot['index_right']]
 
@@ -111,7 +111,7 @@ def find_kalpi(address):
           Y = res['results'][0]['geometry']['location']['lat']
           X = res['results'][0]['geometry']['location']['lng']
           point2 = Point(X,Y)
-          nearby_ballot = GeoDataFrame(geometry=[point2],crs=crs_geo).sjoin(poly_voroni)
+          nearby_ballot = GeoDataFrame(geometry=[point2],crs='EPSG:4326').sjoin(poly_voroni)
           # drop_duplicates is when our code includes same location with a different ballot symbol
           kalpiyot = pnt_voronoi.loc[nearby_ballot['index_right']]
   if kalpiyot is False:
