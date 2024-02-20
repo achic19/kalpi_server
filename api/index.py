@@ -10,7 +10,7 @@ import os
 from os.path import join as jn
 # folder that store the database for the algorithm
 main_folder = 'assets'
-
+# Read data form the assets
 with open(jn(main_folder,'gdf_voroni.pkl'), "rb") as f:
     poly_voroni= pickle.load(f)
 with open(jn(main_folder,'voroni_pnts.pkl'), "rb") as f:
@@ -91,7 +91,7 @@ def find_kalpi(address):
         else:
             area = address  
         is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
-        return(str(len(is_in_data)))
+        return(places_dic2.astype(str))
         if len(is_in_data)>0:
             area_eb = is_in_data.iloc[0]['area']
             kalpiyot= add_in_data()
