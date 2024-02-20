@@ -84,6 +84,7 @@ def add_in_data(res=False):
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
     try:
+        return(address)
         address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
         if ',' in address:
             list_str= address.split(',')
