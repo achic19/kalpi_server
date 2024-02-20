@@ -5,6 +5,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from flask import Flask, jsonify
 import json
+import urllib.parse
 
 import os
 from os.path import join as jn
@@ -90,6 +91,8 @@ def add_in_data(is_in_data,area_eb,res=False):
 def find_kalpi(address):
   # First- clean up the data
   address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
+  # Decode the URL-encoded text
+  address = urllib.parse.unquote(address)
   area= address.split(',')[0]
   return area
   is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
