@@ -90,14 +90,15 @@ def add_in_data(is_in_data,area_eb,res=False):
 def find_kalpi(address):
   # First- clean up the data
   address= address.replace('"', '').replace("'", '').replace("-", ' ').strip()
+  area= address.split(',')[0]
   # reverse the data for the geocoding
-  if ',' in address:
-      list_str= address.split(',')
-      list_str.reverse()
-      address = ','.join(list_str)
-      area = list_str[0]
-  else:
-      area = address  
+  # if ',' in address:
+  #     list_str= address.split(',')
+  #     list_str.reverse()
+  #     address = ','.join(list_str)
+  #     area = list_str[0]
+  # else:
+  #     area = address  
   is_in_data = places_dic2[(places_dic2['location']==area) | (places_dic2['name_en']==area.lower())]
   if len(is_in_data)>0:
       area_eb = is_in_data.iloc[0]['area']
