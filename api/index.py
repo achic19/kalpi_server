@@ -85,6 +85,9 @@ def add_in_data(res=False):
 
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
+    test= True
+    if test:
+        return address
     try:
       adress  =adresses[-1]
       adress= adress.replace('"', '').replace("'", '').replace("-", ' ').strip()
