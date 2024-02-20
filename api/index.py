@@ -119,7 +119,7 @@ def find_kalpi(address):
   if kalpiyot is False:
     return "No Kalpi"
   else:
-     kalpiyot[['address','location']]= kalpiyot[['address','location']].apply(lambda x:x.str.replace("'",'').str.replace('"',''))
+    kalpiyot[['address','location']]= kalpiyot[['address','location']].apply(lambda x:x.str.replace("'",'').str.replace('"',''))
     return kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
 @app.route('/')
 def home():
