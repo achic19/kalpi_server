@@ -71,7 +71,7 @@ def add_in_data(is_in_data,area_eb,address=False,res=False):
   point2 = Point(X,Y)
   # if there are  two points, find the closet one
   if is_in_data.iloc[0]['is_minimum']==2:
-    groups =  pnt_voronoi_local[pnt_voronoi_local['reg']==area].groupby(level=0)
+    groups =  pnt_voronoi_local[pnt_voronoi_local['reg']==area_eb].groupby(level=0)
     dis_1 = groups.get_group(-2).iloc[0].geometry.distance(point2)
     dis_2 = groups.get_group(-3).iloc[0].geometry.distance(point2)
     if dis_1 <dis_2:
