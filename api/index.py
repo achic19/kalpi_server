@@ -134,7 +134,7 @@ def find_kalpi(address):
   else:
     kalpiyot[['address','location']]= kalpiyot[['address','location']].apply(lambda x:x.str.replace("'",'').str.replace('"',''))
     res = kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
-    write_to_vercel_storage(res)
+    # write_to_vercel_storage(res)
     return res 
 @app.route('/')
 def home():
