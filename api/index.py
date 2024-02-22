@@ -87,7 +87,7 @@ def add_in_data(is_in_data,area_eb,address=False,res=False):
   return temp_data_pnts.loc[nearby_ballot['index_right']]
   
 def write_to_vercel_storage(data):
-"""Write data to a blob in Vercel Storage."""
+  """Write data to a blob in Vercel Storage."""
   api_url = f"https://vercel.com/achituvs-projects/kalpi-server/stores/blob/kalpi-server-blob"
   headers = {
     "Authorization": f"Bearer {os.environ['BLOB_READ_WRITE_TOKEN']}",
