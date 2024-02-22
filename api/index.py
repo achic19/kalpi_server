@@ -121,7 +121,11 @@ def find_kalpi(address):
     return "No Kalpi"
   else:
     kalpiyot[['address','location']]= kalpiyot[['address','location']].apply(lambda x:x.str.replace("'",'').str.replace('"',''))
-    return kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
+    res = kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
+    # Append location data to the file
+    with open('locations.txt', 'a') as f:
+        f.write(json.dumps(res) + '\n')
+    return res 
 @app.route('/')
 def home():
     return '???'
