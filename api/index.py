@@ -34,7 +34,8 @@ with open(jn(main_folder,'places_dic.pkl'), "rb") as f:
 
 app = Flask(__name__)
 
-API_KEY = os.environ["GOOGLE_API"]  
+API_KEY = os.environ["GOOGLE_API"] 
+
 
 def geo_code_fun(row):
     # Geocode a location
@@ -84,8 +85,19 @@ def add_in_data(is_in_data,area_eb,address=False,res=False):
   nearby_ballot = GeoDataFrame(geometry=[point2],crs='EPSG:4326').sjoin(temp_data_polys)
   # drop_duplicates is when our code includes same location with a different ballot symbol
   return temp_data_pnts.loc[nearby_ballot['index_right']]
-
-
+  
+def write_to_vercel_storage(data):
+"""Write data to a blob in Vercel Storage."""
+  api_url = f"https://vercel.com/achituvs-projects/kalpi-server/stores/blob/kalpi-server-blob"
+  headers = {
+    "Authorization": f"Bearer {os.environ['BLOB_READ_WRITE_TOKEN']}",
+    "Content-Type": "application/json",
+  }
+  response = requests.put(api_url, headers=headers, data=json.dumps(data))
+  if response.status_code in [200, 201]:
+      print("Successfully wrote to Vercel Storage")
+  else:
+      print("Failed to write to Vercel Storage:", response.text)
 
 @app.route('/kalpi/<address>')
 def find_kalpi(address):
@@ -122,6 +134,7 @@ def find_kalpi(address):
   else:
     kalpiyot[['address','location']]= kalpiyot[['address','location']].apply(lambda x:x.str.replace("'",'').str.replace('"',''))
     res = kalpiyot[['address','location','symbol']].to_json(force_ascii=False,orient='records')
+    write_to_vercel_storage(res)
     return res 
 @app.route('/')
 def home():
